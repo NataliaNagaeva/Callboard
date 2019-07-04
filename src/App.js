@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.scss';
-import AdForm from './components/AdForm';
-import AdList from './components/AdList';
+import NoticeForm from './components/NoticeForm';
+import NoticeList from './components/NoticeList';
 
 function App() {
   return (
     <div className="app">
-      <AdForm />
-      <AdList />
+      <NoticeForm />
+      <NoticeList />
     </div>
   );
 }

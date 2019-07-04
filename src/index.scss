@@ -3,6 +3,7 @@
 body {
   min-width: 320px;
   margin: 0;
+  color: #68717c;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 14px;
   line-height: 1.57;
@@ -16,7 +17,34 @@ body {
   &::before {
     box-sizing: inherit;
     background-repeat: no-repeat;
+    outline: none;
   }  
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #1b2834;
+  font-weight: 600;
+}
+
+h1, .h1 {
+  font-size: 26px;
+}
+
+h2, .h2 {
+  font-size: 24px;
+}
+
+h3, .h3 {
+  font-size: 22px;
+}
+
+h4, .h4 {
+  font-size: 20px;
 }
 
 input,
@@ -49,4 +77,61 @@ img {
 
 button {
   cursor: pointer;
+}
+
+%button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;  
+  padding: 0;
+  line-height: 1;  
+  box-shadow: none;
+  border: 0;
+  background-color: transparent;
+  transition: color .25s, background-color .25s, border-color .25s, opacity .25s, box-shadow .25s, transform .25s;
+  cursor: pointer;
+  appearance: none;
+}
+
+.btn {
+  @extend %button;
+  height: 36px;
+  border-radius: 3px;
+
+  &_size {
+    &_s {
+      width: 140px;
+    }
+
+    &_m {
+      width: 178px;
+    }
+  }
+
+  &_bg {
+    &_blue {
+      color: #ffffff;
+      box-shadow: 0 1px 0 0 rgba(27, 40, 52, 0.16);
+      background-color: #2d74da;
+      background-image: linear-gradient(to bottom, #2d74da, #2367c8);
+      transition: background-image .35s;
+    
+      &:hover {
+        background-image: linear-gradient(to top, #2d74da, #276ccf, #2367c8);
+      }
+    }
+  }
+
+  &_border {
+    &_blue {
+      color: #2d74da;
+      border: 1px solid #2d74da;
+    }
+
+    &_red {
+      color: #fa5e5b;
+      border: 1px solid #fa5e5b;
+    }
+  }
 }
