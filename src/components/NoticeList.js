@@ -1,35 +1,43 @@
 import React from 'react';
+import NoticeListItem from './NoticeListItem';
 import './NoticeList.scss';
+import NoticeStore from './NoticeStore';
 
-const NoticeList = () => {
+const NoticeList = (props) => {
+
+  function validateKey(key) {
+    if (typeof(key) != 'string') {
+      throw "Key must be string";
+    }
+  }
+
+  const getItems = (key) => {
+    validateKey(key);
+
+    let items = (localStorage && localStorage.getItem(key)) ? 
+                JSON.parse(localStorage.getItem(key)) : [];
+    
+    return items;
+  }
+
+  let items = getItems('noticeList');
+
+  const itemsJSX = items.map( (item) => {
+    return (
+      <NoticeListItem 
+        key= {item.id}
+        title= {item.title}
+        msg= {item.msg}
+        tel= {item.tel}
+      />
+    );
+  });
+
   return (
     <div className="notice-list">
       <h2>Объявление</h2>      
       <div className="notice-list__content">
-        <div className="notice-item">
-          <div className="notice-item__left">
-            <div className="notice-item__title">Продам собаку</div>
-            <div className="notice-item__msg">Станет отличным другом, к лотку приучена</div>
-            {/* <div className="notice-item__img">
-              <img src="" alt=""/>
-            </div> */}
-          </div>
-          <div className="notice-item__right">
-            <div className="notice-item__contacts">
-              <a href="tel:+79011000000" className="notice-item__contact notice-item__tel">+7 (901) 100-00-00</a>
-            </div>
-            <div className="notice-item__controls">
-              <button 
-                className="notice-item__control btn btn_size_m btn_border_blue">
-                Редактировать
-              </button>
-              <button 
-                className="notice-item__control btn btn_size_m btn_border_red">
-                Удалить
-              </button>
-            </div>
-          </div>
-        </div>
+        {itemsJSX}
       </div>
     </div>
   );

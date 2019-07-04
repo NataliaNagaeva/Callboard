@@ -21,21 +21,28 @@
     }
 
     &__control {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-
-      &_area {
-        align-items: flex-start;
-      }
-
-      .form-control {
-        width: calc(67% - 12px);
-      }
-  
       .form-status {
-        width: calc(33% - 12px);
+        margin-top: 6px;
+      }
+
+      @media screen and (min-width: 640px) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+  
+        &_area {
+          align-items: flex-start;
+        }
+  
+        .form-control {
+          width: calc(67% - 12px);
+        }
+    
+        .form-status {
+          width: calc(33% - 12px);
+          margin-top: 0;
+        }
       }
     }
   }
