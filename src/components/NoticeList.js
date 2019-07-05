@@ -1,34 +1,15 @@
 import React from 'react';
 import NoticeListItem from './NoticeListItem';
 import './NoticeList.scss';
-import NoticeStore from './NoticeStore';
 
 const NoticeList = (props) => {
-
-  function validateKey(key) {
-    if (typeof(key) != 'string') {
-      throw "Key must be string";
-    }
-  }
-
-  const getItems = (key) => {
-    validateKey(key);
-
-    let items = (localStorage && localStorage.getItem(key)) ? 
-                JSON.parse(localStorage.getItem(key)) : [];
-    
-    return items;
-  }
-
-  let items = getItems('noticeList');
-
-  const itemsJSX = items.map( (item) => {
+  const itemsJSX = props.notices.map( (item) => {
     return (
       <NoticeListItem 
-        key= {item.id}
-        title= {item.title}
-        msg= {item.msg}
-        tel= {item.tel}
+        key = {item.id}
+        item = {item} 
+        update = {props.update}
+        remove = {props.remove}
       />
     );
   });
