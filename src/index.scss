@@ -77,6 +77,11 @@ img {
 
 button {
   cursor: pointer;
+
+  &[type="submit"]:disabled {
+    cursor: unset;
+    opacity: .5;
+  }
 }
 
 %button {

@@ -8,19 +8,17 @@
     display: block;
     margin-bottom: 28px;
 
-    &_invalid {
-      .form {
-        &-control {
-          border-color: #fa5e5b;
-        }
-      }
-    }
-
     &__text {
       margin-bottom: 8px;
     }
 
     &__control {
+      &.is-error {
+        .form-control {
+          border-color: #fa5e5b;
+        }
+      }
+
       .form-status {
         margin-top: 6px;
       }
@@ -28,12 +26,8 @@
       @media screen and (min-width: 640px) {
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
-  
-        &_area {
-          align-items: flex-start;
-        }
   
         .form-control {
           width: calc(67% - 12px);
@@ -41,7 +35,6 @@
     
         .form-status {
           width: calc(33% - 12px);
-          margin-top: 0;
         }
       }
     }
@@ -72,7 +65,7 @@
 
   &-status {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 
     &::before {
       flex: 0 0 auto;
@@ -80,6 +73,7 @@
       content: "";
       width: 18px;
       height: 18px;
+      margin-top: 2px;
       margin-right: 4px;
       background-image: url(../img/status-icon-default.svg);
       background-position: 50% 50%;
@@ -99,6 +93,10 @@
       &::before {
         background-image: url(../img/status-icon-error.svg);
       }
+    }
+
+    p {
+      margin: 0;
     }
   }
 }

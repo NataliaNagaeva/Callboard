@@ -4,7 +4,6 @@ function get(key) {
 }
 
 function set(key, value) {
-  console.log('storage', value);
   localStorage.setItem(key, JSON.stringify(value));
 }
 

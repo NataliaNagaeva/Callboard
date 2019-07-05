@@ -1,7 +1,7 @@
-import BaseValidator from "./BaseValidator"
+import BaseValidator from './BaseValidator';
 
 export default class RequiredValidator extends BaseValidator {
-  constructor(errorMessage="Заполните поле", infoMessage="Обязательное поле") {
+  constructor(errorMessage='Заполните поле', infoMessage='Обязательное поле') {
     super(errorMessage, infoMessage);
   }
 
@@ -10,6 +10,6 @@ export default class RequiredValidator extends BaseValidator {
       return [false, this.errorMessage];
     }
 
-    return [true, ""];
+    return [true, ''];
   }
 }

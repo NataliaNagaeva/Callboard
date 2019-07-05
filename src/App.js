@@ -12,10 +12,10 @@ function App() {
   const addNotice = (notice) => {
     setNotices(prevNotices => {
       let notices = [...prevNotices],
-          idx = notices.findIndex((item) => notice.id == item.id);
+          idx = notices.findIndex((item) => notice.id === item.id);
       
       if (idx < 0) {
-        notices.push(notice);
+        notices.unshift(notice);
       } else {
         notices[idx] = notice;
       }
@@ -27,7 +27,7 @@ function App() {
 
   const removeNotice = (notice) => {
     setNotices(notices => {
-      notices = notices.filter((item) => item.id != notice.id);
+      notices = notices.filter((item) => item.id !== notice.id);
       set(NOTICES_KEY, notices);
       return notices;
     })
@@ -35,8 +35,14 @@ function App() {
 
   return (
     <div className="app">
-      <NoticeForm formData={formData} setFormData={setFormData} addNotice={addNotice}/>
-      <NoticeList notices={notices} update={setFormData} remove={removeNotice}/>
+      <NoticeForm 
+        formData={ formData }
+        setFormData={ setFormData }
+        addNotice={ addNotice } />
+      <NoticeList
+        notices={ notices }
+        update={ setFormData }
+        remove={ removeNotice } />
     </div>
   );
 }

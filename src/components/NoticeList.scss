@@ -36,6 +36,8 @@
       color: #1b2834;
       font-size: 18px;
       line-height: 1.22;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     &__msg {

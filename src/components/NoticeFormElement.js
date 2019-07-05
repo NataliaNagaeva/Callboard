@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 
-const PENDING = 0,
-      ERROR = 1,
-      SUCCESS = 2;
+const PENDING = 'pending',
+      ERROR = 'error',
+      SUCCESS = 'success';
 
-const NoticeFormElement = (props) => {
+const NoticeFormElement = forwardRef((props, ref) => {
+  if (typeof(props.onChange) !== 'function') {
+    throw new Error("onChange not a function")
+  } 
+
   const getInfoMessages = () => {
     let messages = [],
         validators = props.validators || [];
@@ -17,20 +21,29 @@ const NoticeFormElement = (props) => {
 
   const [status, setStatus] = useState({
     code: PENDING,
-    messages: getInfoMessages(),
-  });
+    messages: getInfoMessages()
+  });  
 
-  if (typeof(props.onChange) !== 'function') {
-    throw new Error("onChange not a function")
-  } 
+  useImperativeHandle(ref, () => ({
+    clearStatus() {
+      setStatus({
+        code: PENDING,
+        messages: getInfoMessages()
+      });
+    },
+
+    isValid() {
+      return refreshStatus();
+    }
+  }));
 
   const validate = (obj, attr) => {
     if (!props.validators) {
-      return [true, [""]];
+      return [true, ['']];
     }
 
     let ok = true,
-        message = "",
+        message = '',
         messages = [];
 
     for (let v of props.validators) {
@@ -44,59 +57,65 @@ const NoticeFormElement = (props) => {
     }
 
     if (ok) {
-      messages = ["Заполнено"];
+      messages = ['Заполнено'];
     }
 
     return [ok, messages];
   }
 
+  const refreshStatus = () => {
+    let [ok, messages] = validate(props, 'value');
+    if (props.value) {
+      setStatus({
+        code: ok ? SUCCESS : ERROR,
+        messages: messages
+      });
+    }
+    return ok;
+  }
+
   const changeHandler = (e) => {
-    let [ok, messages] = validate(e.target, 'value');
-    setStatus({
-      code: ok ? SUCCESS : ERROR,
-      messages: messages
-    });
+    refreshStatus();
     props.onChange(e);
   }
 
   let elementJSX = <input 
                     className="form-control"
-                    type= {props.type}
-                    value= {props.value || ""}
-                    name= {props.name ? props.name : null}
-                    onChange={changeHandler}
-                    required= {props.required ? true : false}  
-                    placeholder= {props.placeholder ? props.placeholder : props.isPhone ? '+7 (___) ___ - __ - __' : null}
+                    type={ props.type }
+                    value={ props.value || "" }
+                    name={ props.name || null }
+                    onChange={ changeHandler }
+                    required={ !!props.required }  
+                    placeholder={ props.placeholder || (props.isPhone ? '+7 (___) ___ - __ - __' : null) }
                   />;
   
   if (props.type === 'textarea') {
-    elementJSX =  <textarea
+    elementJSX = <textarea
                     className="form-control form-control_area"
-                    value= {props.value ? props.value : ""}                
-                    name= {props.name ? props.name : null}
-                    onChange={changeHandler}
-                    required = {props.required ? true : false}  
-                    placeholder= {props.placeholder ? props.placeholder : null}
+                    value={ props.value || "" }                
+                    name={ props.name || null }
+                    onChange={ changeHandler }
+                    required={ !!props.required }
+                    placeholder={ props.placeholder || null }
                   >
                   </textarea>;
   }
   
-  const statusJSX = <div className="form-status">
-                      <div className="form-status__text">
-                        {status.code}
-                        {status.messages.map((s, i) => <p key={i}> {s} </p>)}
+  const statusJSX = <div className={ `form-status form-status_${status.code}` }>
+                      <div className="form-status__text">                        
+                        { status.messages.map((s, i) => <p key = {i}> {s} </p>) }
                       </div>
                     </div>;
 
   return (
     <label className="form-item">
-      <div className="form-item__text">{props.labelText}</div>
-      <div className={props.isTextarea ? 'form-item__control form-item__control_area' : 'form-item__control'}>
-        {elementJSX}
-        {props.status ? statusJSX : null}
+      <div className="form-item__text">{ props.labelText }</div>
+      <div className={ `form-item__control is-${status.code}` }>
+        { elementJSX }
+        { props.validators ? statusJSX : null }
       </div>        
     </label>          
   );
-}
+});
 
 export default NoticeFormElement;
